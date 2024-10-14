@@ -1,0 +1,80 @@
+\documentclass{article}
+
+
+% if you need to pass options to natbib, use, e.g.:
+%     \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading neurips_2024
+
+
+% ready for submission
+\usepackage[preprint]{neurips_2024}
+
+
+% to compile a preprint version, e.g., for submission to arXiv, add add the
+% [preprint] option:
+%     \usepackage[preprint]{neurips_2024}
+
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+%     \usepackage[final]{neurips_2024}
+
+
+% to avoid loading the natbib package, add option nonatbib:
+%    \usepackage[nonatbib]{neurips_2024}
+
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+
+
+\title{Machine Learning}
+\author{%
+Satyanarayana Gajjarapu \\
+AI24BTECH11009 \\
+Department of Artificial Intelligence \\
+\texttt{ai24btech11009@iith.ac.in} \\
+}
+
+
+\begin{document}
+
+
+\maketitle
+
+\begin{paragraph}
+\\
+If an agent improves its performance after making observations about the world then it is called learning. When the agent is a computer, it is called \textbf{Machine Learning}. The technology of machine learning has become a standard part of software engineering because components of any system can be improved with machine learning. If the output is a discrete set of values then it is called \textbf{classification}. If the output is a number then it is called \textbf{regression}.
+\end{paragraph}
+\section{Forms of Learning}
+\begin{paragraph}
+\\
+There are mainly 3 types of learning: \textbf{supervised learning}, \textbf{unsupervised learning} and \textbf{reinforcement learning}. In supervised learning the agent observes input-output pairs and learns a function that maps from input to output. In unsupervised learning the agent learns patterns in the input without any explicit feedback. The most common task in unsupervised learning is to make clusters of data which has similarity. In reinforcement learning the agent learns from a series of reinforcements called rewards and punishments. 
+\end{paragraph}
+\section{Supervised Learning}
+\begin{paragraph}
+\\
+In a training set used to train an agent, each pair is mapped by a function $y=f(x)$. The aim is to find a function $h$ which approximates the true function $f$. The function $h$ is called a \textbf{hypothesis} which is taken from a \textbf{hypothesis space} $\mathcal{H}$ which consists many functions. The output $y_i$ in supervised learning is called ground truth.
+\end{paragraph}
+\begin{paragraph}
+\\
+To find a good hypothesis from hypothesis space, search for a best fit function $h$ such that every $x_i$ in training set has $y_i=h(x_i)$ and every $h(x_i)$ is close to $y_i$. The measure of a hypothesis is does not depend only on training set but also the test set. If a hypothesis is a straight line, it is of form $h(x)=w_1x+w_0$. If a hypothesis is a sinusoidal function, it is represented by $w_1x+\sin{(w_0x)}$. If it is a polynomial of degree n, it is represented by $\sum_{i=0}^{n} w_ix^i$.
+\end{paragraph}
+\begin{paragraph}
+\\
+A hypothesis space is analyzed by two parameters bias and variance. Bias means the tendency of a hypothesis to deviate from the expected value. Variance means the amount of change in the hypothesis due to fluctuation in the training data. A hypothesis is said to be \textbf{underfitting} if it fails to find a pattern in the data. A hypothesis is said to be \textbf{overfitting} when it pays too much attention on the training data, resulting in poor performance on test data.
+\end{paragraph}
+\section{Example: Restaurant Waiting}
+\begin{paragraph}
+\\
+This is a problem of deciding whether to wait for a table at a restaurant or not. The output $y$ is a boolean variable called $WillWait$. The input $x$ is a vector of ten attribute values. Out of 9216 possible inputs, only 12 are given as a data set. It should make a best guess at these missing 9204 output values, using those 12 examples.
+\end{paragraph}
+
+
+\end{document}

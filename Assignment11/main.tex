@@ -1,0 +1,106 @@
+\documentclass{article}
+
+
+% if you need to pass options to natbib, use, e.g.:
+%     \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading neurips_2024
+
+
+% ready for submission
+\usepackage[preprint]{neurips_2024}
+
+
+% to compile a preprint version, e.g., for submission to arXiv, add add the
+% [preprint] option:
+%     \usepackage[preprint]{neurips_2024}
+
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+%     \usepackage[final]{neurips_2024}
+
+
+% to avoid loading the natbib package, add option nonatbib:
+%    \usepackage[nonatbib]{neurips_2024}
+
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+\usepackage{amsmath}
+
+\title{Linear Regression (Cont'd) and Classification}
+\author{%
+Satyanarayana Gajjarapu \\
+AI24BTECH11009 \\
+Department of Artificial Intelligence \\
+\texttt{ai24btech11009@iith.ac.in} \\
+}
+
+
+\begin{document}
+
+
+\maketitle
+\section{Regularization in Linear Regression}
+\begin{paragraph}
+\\
+In univariate linear regression there is no chance of overfitting, but in multivariable linear regression there is a possibility of overfitting. Thus \textbf{regularization} is used on multivariable linear regression to avoid overfitting. With regularization, the total cost of hypothesis is minimized.
+\begin{align*}
+    Cost(h) = EmpLoss(h) + \lambda Complexity(h)
+\end{align*}
+For linear functions the complexity can be specified as a function of weights.
+\begin{align*}
+    Complexity(h_\textbf{w}) = L_q(\textbf{w}) = \sum\limits_{i} |w_i|^q
+\end{align*}
+$L_1$ regularization has an important advantage because it tends to produce a \textbf{sparse model} which often sets many weights to zero. $L_1$ regularization takes the dimensional axes seriously, while $L_2$ treats them as arbitrary. The $L_2$ function is spherical, which makes it rotationally invariant.
+\end{paragraph}
+\section{Linear Classification}
+\begin{paragraph}
+\\
+Linear functions can be used for classification as well as regression. A \textbf{decision boundary} is a line or a surface that separates two classes. A linear decision boundary is called a \textbf{linear separator} and data which consists it is called \textbf{linearly separable}. \textbf{Threshold function} outputs either 0 or 1 by passing the result of the linear function \textbf{w}$\cdot$\textbf{x}. 
+\begin{align*}
+    h_\textbf{w}(\textbf{x}) = Threshold(\textbf{w}\cdot\textbf{x}) \ \text{where} \ Threshold(z) = 1 \ \text{if} \ z\geq0 \ \text{and 0 otherwise}
+\end{align*}
+Gradient descent cannot be used to minimize the loss by finding weights because the gradient is zero almost everywhere in weight space except at those points where \textbf{w}$\cdot$\textbf{x} = 0, because there the gradient is undefined. A simple weight update rule called the \textbf{perceptron learning rule} is used, which is similar to the update rule for linear regression. This rule converges to a solution only when the provided data is linearly separable.
+\end{paragraph}
+
+\subsection{Logistic regression}
+\begin{paragraph}
+\\
+The hypothesis $h_\textbf{w}$(\textbf{x}) is not differentiable and discontinuous, which makes learning with the perceptron rule very unpredictable. These issues can be resolved by approximating the hard threshold function with a continuous, differentiable function like logistic function.
+\begin{align*}
+    Logistic(z) = \frac{1}{1 + e^{-z}} \\
+   h_\textbf{w}(\textbf{x}) = Logistic(\textbf{w}\cdot\textbf{x}) = \frac{1}{1 + e^{-\textbf{w}\cdot\textbf{x}}} 
+\end{align*}
+\end{paragraph}
+\begin{paragraph}
+\\
+The process of fitting the weights of this model to minimize loss on a data set is called \textbf{logistic regression}. The hypotheses no longer output 0 or 1, because of using logistic function. So the $L_2$ loss function can be used for optimization with gradient descent. Let the logistic function is denoted by $g$. The derivation of the gradient is the same as for linear regression up to a certain point.
+\begin{align*}
+    \frac{\partial}{\partial w_i}Loss(\textbf{w}) & = \frac{\partial}{\partial w_i}(y - h_\textbf{w}(\textbf{x}))^2 \\
+& = 2(y - h_\textbf{w}(\textbf{x}))\times\frac{\partial}{\partial w_i}(y - h_\textbf{w}(\textbf{x})) \\
+& = -2(y - h_\textbf{w}(\textbf{x})) \times g'(\textbf{w}\cdot\textbf{x})\times\frac{\partial}{\partial w_i}\textbf{w}\cdot\textbf{x} \\
+& = -2(y - h_\textbf{w}(\textbf{x})) \times g'(\textbf{w}\cdot\textbf{x}) \times x_i
+\end{align*}
+The derivative of logistic function $g$ is
+\begin{align*}
+   g'(\textbf{w}\cdot\textbf{x}) = g(\textbf{w}\cdot\textbf{x})(1 - g(\textbf{w}\cdot\textbf{x})) = h_\textbf{w}(\textbf{x})(1 - h_\textbf{w}(\textbf{x}))
+\end{align*}
+The update rule for minimizing the loss is
+\begin{align*}
+    w_i \leftarrow w_i + \alpha(y - h_\textbf{w}(\textbf{x})) \times h_\textbf{w}(\textbf{x})(1 - h_\textbf{w}(\textbf{x})) \times x_i 
+\end{align*}
+where $\alpha$ is the learning rate. 
+\end{paragraph}
+
+
+
+
+
+\end{document}

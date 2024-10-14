@@ -1,0 +1,95 @@
+\documentclass{article}
+
+
+% if you need to pass options to natbib, use, e.g.:
+%     \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading neurips_2024
+
+
+% ready for submission
+\usepackage[preprint]{neurips_2024}
+
+
+% to compile a preprint version, e.g., for submission to arXiv, add add the
+% [preprint] option:
+%     \usepackage[preprint]{neurips_2024}
+
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+%     \usepackage[final]{neurips_2024}
+
+
+% to avoid loading the natbib package, add option nonatbib:
+%    \usepackage[nonatbib]{neurips_2024}
+
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+\usepackage{amsmath}
+
+\title{Neural Networks}
+\author{%
+Satyanarayana Gajjarapu \\
+AI24BTECH11009 \\
+Department of Artificial Intelligence \\
+\texttt{ai24btech11009@iith.ac.in} \\
+}
+
+
+\begin{document}
+
+
+\maketitle
+\begin{paragraph}
+\\
+\textbf{Deep learning} is a broad family of techniques for machine learning in which hypotheses take the form of complex algebraic circuits with tunable connection strengths. It is most widely used approach for speech recognition, image synthesis, etc. and also plays a significant role in reinforcement learning applications. It has origins in the work that tried to model networks of neurons in the brain using computational circuits. The networks trained by deep learning methods are often called \textbf{neural networks}. Linear and logistic regression can handle a large number of input variables but the computation path from each input to the output is very short. Decision lists and decision trees allow for long computation paths but only for a small fraction of the possible input vectors. The aim of deep learning is to train circuits whose computation paths are long and are able to handle a large number of input variables. In neural networks, usually the input values are continuous, the nodes take continuous inputs and generate continuous outputs.
+\end{paragraph}
+\section{Feedforward Network}
+\begin{paragraph}
+\\
+A \textbf{feedforward network} has connections only in one direction, it forms a \textbf{directed acyclic graph} involving designated input and output nodes without any loops. Boolean circuits are an example of feedforward networks. A \textbf{recurrent network} feeds its intermediate or final outputs back into its own inputs. Each node within a network is called a \textbf{unit}. A unit calculates the weighted sum of the inputs from predecessor nodes and produces an output using nonlinear function. Let $a_j$ denote the output of unit $j$
+and $w_{i,j}$ be the weight attached to the link from unit $i$ to $j$.
+\begin{align*}
+    a_j = g_j(\sum\nolimits_i w_{i,j}a_i) \equiv g_j(in_j)
+\end{align*}
+where $g_j$ is a \textbf{nonlinear activation function} associated with unit $j$ and $in_j$ is the weighted sum of the inputs to unit $j$. To make the total
+weighted input $in_j$ to unit $j$ nonzero even when the outputs of the previous layer are zero. The equation is modified using \textbf{w}, the vector of weights leading into unit $j$ and \textbf{x}, the vector of inputs to unit $j$.
+\begin{align*}
+    a_j = g_j(\textbf{w}^\top\textbf{x})
+\end{align*}
+The nonlinearity of the activation function is important because without it, 
+any composition of units would still represent a linear function. Examples of activation functions are \textbf{sigmoid}, \textbf{rectified linear unit} (ReLU), \textbf{softplus} and \textbf{tanh} functions.
+\begin{align*}
+   \sigma(x) = 1/(1+e^{-x}), \text{ReLU}(x) = max(0, x), \text{softplus}(x) = \log{1 + e^x}, \text{tanh}(x) = \frac{e^{2x}-1}{e^{2x}+1}
+\end{align*}
+All these are monotonically nondecreasing whose derivatives are nonnegative. The output $\hat{y}$ can be expressed as a function $h_\textbf{w}(\textbf{x})$ of the inputs and the weights. The network can be assumed as a \textbf{computation graph} or \textbf{dataflow graph}, essentially a circuit in which each node represents an elementary computation. Let \textbf{W} be the weight matrix for the network, $\textbf{W}^{(1)}$ and $\textbf{W}^{(2)}$ be the weights in first and second layer respectively. $\textbf{g}^{(1)}$ and $\textbf{g}^{(2)}$ be the activation functions in the first and second layers. Then the entire network can be expressed as
+\begin{align*}
+    h_\textbf{w}(\textbf{x}) = \textbf{g}^{(2)}(\textbf{W}^{(2)}\textbf{g}^{(1)}(\textbf{W}^{(1)}\textbf{x}))
+\end{align*}
+The approach of gradient descent can be used to learning the weights in computation graphs. The squared loss function $L_2$ is used to calculate the gradient descent for a single training example. 
+\begin{align*}
+    Loss(h_\textbf{w}) = L_2(y,h_\textbf{w}(\textbf{x})) & = \lVert y - h_\textbf{w}(\textbf{x}) \rVert^2 = (y - \hat{y})^2 \\
+    \frac{\partial}{\partial w_{3,5}}Loss(h_\textbf{w}) & = -2(y-\hat{y})g'_5(in_5)a_3 \\
+     \frac{\partial}{\partial w_{1,3}}Loss(h_\textbf{w}) & = -2(y-\hat{y})g'_5(in_5)w_{3,5}g'_3(in_3)x_1
+\end{align*}
+The above two equations are two different cases to show the gradient of loss function. The phenomenon of passing the error at the output back into the network is called \textbf{backpropagation}. Many deep learning algorithms involve \textbf{automatic differentiation} which uses reverse mode differentiation to efficiently compute gradients for backpropagation.
+\end{paragraph}
+\section{Computational Graphs}
+\begin{paragraph}
+\\
+The input and output nodes of a computational graph are the ones that connect directly to the input data \textbf{x} and the output data \textbf{y}. Most deep learning applications interpret the output values $\hat{y}$ as probabilities and use \textbf{negative log likelihood} as the loss function. Maximizing the log likelihood of the data is equivalent to minimizing a loss function defined as the negative log likelihood. In deep learning, it is common to refer about minimizing the \textbf{cross entropy} loss $H(P,Q)$.
+\begin{align*}
+    H(P,Q) = \int P(\textbf{z})\log Q(\textbf{z})d\textbf{z}
+\end{align*}
+During the training process, a neural network is shown many input values \textbf{x} and many corresponding output values \textbf{y}. While processing an input vector \textbf{x}, the neural network performs several intermediate computations before producing the output \textbf{y}. Each layer transforms the representation produced by the preceding layer to produce a new representation.
+\end{paragraph}
+
+
+\end{document}

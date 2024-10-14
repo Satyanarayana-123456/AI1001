@@ -1,0 +1,100 @@
+\documentclass{article}
+
+
+% if you need to pass options to natbib, use, e.g.:
+%     \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading neurips_2024
+
+
+% ready for submission
+\usepackage[preprint]{neurips_2024}
+
+
+% to compile a preprint version, e.g., for submission to arXiv, add add the
+% [preprint] option:
+%     \usepackage[preprint]{neurips_2024}
+
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+%     \usepackage[final]{neurips_2024}
+
+
+% to avoid loading the natbib package, add option nonatbib:
+%    \usepackage[nonatbib]{neurips_2024}
+
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+\usepackage{amsmath}
+
+\title{Model Selection and Optimization}
+\author{%
+Satyanarayana Gajjarapu \\
+AI24BTECH11009 \\
+Department of Artificial Intelligence \\
+\texttt{ai24btech11009@iith.ac.in} \\
+}
+
+
+\begin{document}
+
+
+\maketitle
+\begin{paragraph}
+\\
+The goal in machine learning is to select a hypothesis that will optimally fit future examples. A stationarity assumption is made that future examples are similar to the past examples. Also assume each $E_j$ has the same prior probability distribution and is independent of the previous examples.
+\begin{align*}
+    \textbf{P}(E_j) & = \textbf{P}(E_{j + 1}) = \textbf{P}(E_{j + 2}) = \cdots \\
+    \textbf{P}(E_j) & = \textbf{P}(E_j|E_{j - 1},E_{j - 2},\cdots)
+\end{align*}
+Examples that satisfy these equations are called \textbf{independent and identically distributed} (i.i.d). \textbf{Hyperparameters} are the parameters of the model class, not of an individual model. 
+\end{paragraph}
+\begin{paragraph}
+\\
+Available examples are divided into two sets, a \textbf{training set} to create the hypothesis and a \textbf{test set} to evaluate it. Apart from training set and test set, a \textbf{validation set} (development set or dev set) is also required to evaluate and select best candidate model. The technique of using data as both training data and validation data by dividing into $k$ equal subsets is called \textbf{$k$-fold cross-validation}. The extreme case of $k = n$ is called \textbf{leave-one-out cross-validation} (LOOCV). 
+\end{paragraph}
+\section{Model Selection}
+\begin{paragraph}
+\\
+In finding a good hypothesis, \textbf{model selection}, to find good hypothesis space and \textbf{optimization} (training), to find best hypothesis within the space are required. For many model classes, the training set error reaches zero as the complexity increases. Model selection picks the value where it has least validation error rate. Model classes start to overfit as the capacity approaches the point of interpolation.
+\end{paragraph}
+\section{Loss function and Loss}
+\begin{paragraph}
+\\
+The main aim of a model is to maximize the utility function, but in machine learning it is expressed as to minimize the loss function. The loss function $L(x, y, \hat{y})$ is defined as the amount of utility lost by predicting $h(x)=\hat{y}$ when the correct answer is $f(x)=y$.
+\begin{align*}
+     L(x, y, \hat{y}) = \text{Utility(result of using $y$ given an input x) - Utility(result of using $\hat{y}$ given an input x)}
+\end{align*}
+A simplified version of loss function is $L(y, \hat{y})$, which is independent of $x$. The different types of loss functions are \textbf{Absolute-value loss}: $L_1(y, \hat{y}) = |y-\hat{y}|$ and \textbf{Squared-error loss}: $L_2(y, \hat{y}) = (y - \hat{y})^2$. Expected \textbf{generalization loss} for a hypothesis $h$ (with respect to loss function L) is
+  \begin{align*}
+      GenLoss_L(h) & = \sum\limits_{(x,y)\in\varepsilon}L(y,h(x))P(x,y) \\
+      h^* & = \operatorname*{argmin}_{h\in\mathcal{H}} GenLoss_L(h)
+  \end{align*}
+Where $P$ is the probability distribution over examples, $\varepsilon$ is the set of all possible input–output examples and $h^*$ is the best hypothesis with the minimum expected generalization loss. The learning agent can only estimate generalization loss with \textbf{empirical loss} on a set of examples $E$ of size $N$,
+\begin{align*}
+    EmpLoss_{L,E}(h) & = \sum\limits_{(x,y)\in E}L(y,h(x))\frac{1}{N} \\
+     \hat{h}^* & = \operatorname*{argmin}_{h\in\mathcal{H}} EmpLoss_{L,E}(h)
+\end{align*}
+Where $\hat{h}^*$ is the estimated best hypothesis with minimum empirical loss.
+$\hat{h}^*$ may differ from the true function f due to four reasons unrealizability, variance, noise and computational complexity.
+\end{paragraph}
+\section{Regularization and Hyperparameter tuning}
+\begin{paragraph}
+\\
+The weighted sum of empirical loss and the complexity of the hypothesis is called total cost. $\lambda$ is hyperparameter.
+\begin{align*}
+    Cost(h) & = EmpLoss(h) + \lambda Complexity(h) \\
+    \hat{h}^* & = \operatorname*{argmin}_{h\in\mathcal{H}} Cost(h)
+\end{align*}
+The process of explicitly penalizing complex hypotheses is called \textbf{regularization}. The major use of regularization is to make a model simple and to improve model's generalization ability. The simplest approach to hyperparameter tuning is \textbf{hand tuning}, which uses parameter values from past experiences to train the model and suggests new parameter values. Bayesian optimization, Gaussian process and population-based training (PBT) are used to address hyperparameter tuning tasks.
+\end{paragraph}
+
+
+\end{document}

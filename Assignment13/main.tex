@@ -1,0 +1,131 @@
+\documentclass{article}
+
+
+% if you need to pass options to natbib, use, e.g.:
+%     \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading neurips_2024
+
+
+% ready for submission
+\usepackage[preprint]{neurips_2024}
+
+
+% to compile a preprint version, e.g., for submission to arXiv, add add the
+% [preprint] option:
+%     \usepackage[preprint]{neurips_2024}
+
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+%     \usepackage[final]{neurips_2024}
+
+
+% to avoid loading the natbib package, add option nonatbib:
+%    \usepackage[nonatbib]{neurips_2024}
+
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+\usepackage{amsmath}
+
+\title{CNNs, Learning Algorithms, Generalization}
+\author{%
+Satyanarayana Gajjarapu \\
+AI24BTECH11009 \\
+Department of Artificial Intelligence \\
+\texttt{ai24btech11009@iith.ac.in} \\
+}
+
+
+\begin{document}
+
+
+\maketitle
+\begin{paragraph}
+\\
+If the first hidden layer is constructed so that each hidden unit receives input from only a small, local region of the image, then adjacency is followed locally and also reduces the number of weights. Images exhibit approximate \textbf{spatial invariance}, means eyes or blades of grass look similar regardless of their position within a small region. If $l$ weights are connecting a local region, for hidden units $i$ and $j$, the weights $w_{1,i},\cdots,w_{l,i}$ are the same as $w_{1, j},\cdots,w_{l, j}$.
+\end{paragraph}
+\section{Convolutional Neural Network}
+\begin{paragraph}
+\\
+A \textbf{convolutional neural network} (CNN) contains spatially local connections in the early layers and has patterns of weights that replicates in multiple regions in each layer called \textbf{kernel}. The process of applying the kernel to the pixels of the image is called \textbf{convolution}. Consider an input vector \textbf{x} of size $n$, corresponding to $n$ pixels in one dimensional image and a vector kernel \textbf{k} of size $l$. The convolution operation written using $\ast$, $\textbf{z} = \textbf{x}\ast\textbf{k}$ is defined as:
+\begin{align*}
+    z_i = \sum\limits_{j=1}^{l}k_jx_{j+i-(l+1)/2}
+\end{align*}
+If the pixels on which the kernels are centered are separated by a distance of $p$ pixels then \textbf{stride} is defined as $s=p$, then $n$ pixels are reduced to $n/s$ in one dimension. In two dimensions, $n$ pixels are reduced to $n/s_xs_y$, where $s_x$ and $s_y$ are the strides in the $x$ and $y$ directions in the image. There will be $d$ kernels, with a stride of 1, the output will be $d$ times larger. This means that a 2-D input array becomes a 3-D array of hidden units, where the third dimension is of size $d$.
+\end{paragraph}
+\begin{paragraph}
+\\
+CNNs were inspired originally by models of the visual cortex proposed in neuroscience. The \textbf{receptive field} of a neuron is the portion of the sensory input that can affect that neuron’s activation. The receptive field of a unit in the first hidden layer is small, but larger in the deeper layers of the network. When the stride is 1, a node in the $m$th hidden layer will have a receptive field of size $(l-1)m + 1$.
+\end{paragraph}
+\begin{paragraph}
+\\
+A \textbf{pooling layer} in a neural network summarizes a set of adjacent units from the preceding with a single value. The two types of pooling are \textbf{max pooling} and \textbf{average pooling}. \textbf{Downsampling} refers to reducing the resolution of the feature map by sampling fewer points. A reason for describing CNNs in terms of tensor operations is computational efficiency, deep learning workloads often run on GPUs or TPUs.
+\end{paragraph}
+\begin{paragraph}
+\\
+\textbf{Residual networks} are a popular and successful approach to building very deep networks that avoid the problem of vanishing gradients. These are often used with convolutional layers in vision applications. Using the matrix–vector notation, with $\textbf{z}^{(i)}$ being the values of the units in layer $i$
+\begin{align*}
+    \textbf{z}^{(i)} = f(\textbf{z}^{(i-1)}) = \textbf{g}^{(i)}(\textbf{W}^{(i)}\textbf{z}^{(i-1)})
+\end{align*}
+The key idea of residual networks is that a layer should perturb the representation from the previous layer rather than replace it entirely. $\textbf{g}_r$ is the activation functions for the residual layer, $f$ is \textbf{residual}, \textbf{W} and \textbf{V} are learned weight matrices with the usual bias weights added.
+\begin{align*}
+    \textbf{z}^{(i)} & = \textbf{g}_r^{(i)}(\textbf{z}^{(i-1)}+f(\textbf{z}^{(i-1)})) \\
+    f(\textbf{z}) & = \textbf{Vg}(\textbf{Wz})
+\end{align*}
+If \textbf{V} = \textbf{0} for a particular layer in order to disable that layer, then
+\begin{align*}
+    \textbf{z}^{(i)} & = \textbf{g}_r(\textbf{z}^{(i-1)})
+\end{align*}
+\end{paragraph}
+\section{Learning Algorithms}
+\begin{paragraph}
+\\
+The goal is to minimize the loss L(\textbf{w}), where \textbf{w} represents all of the parameters of the network. The update algorithm for training is
+\begin{align*}
+    \textbf{w}\leftarrow\textbf{w}-\alpha\Delta_\textbf{w}L(\textbf{w})
+\end{align*}
+Important characteristics relevant to training neural networks:
+$\bullet \text{Both the dimensionality of \textbf{w} and the size of the training set are very large.}$
+$\bullet \text{The gradient contribution of each training example in the SGD minibatch can be computed independently.}$
+$\bullet \text{To improve convergence, the learning rate which decreases overtime is used.}$
+\end{paragraph}
+\begin{paragraph}
+\\
+The backward message $\frac{\partial L}{\partial h_j}$ is the partial derivative of $L$ with respect to $j$’s first input, which is the forward message from $h$ to $j$. Now, $h$ affects $L$ through both $j$ and $k$.
+\begin{align*}
+    \frac{\partial L}{\partial h} = & \frac{\partial L}{\partial h_j} + \frac{\partial L}{\partial h_k} \\
+    \frac{\partial L}{\partial f_h} = \frac{\partial L}{\partial h}\frac{\partial h}{\partial f_h},&\frac{\partial L}{\partial g_h} = \frac{\partial L}{\partial h}\frac{\partial h}{\partial g_h}
+\end{align*}
+$\frac{\partial h}{\partial f_h}$ and $\frac{\partial h}{\partial g_h}$ are just the derivatives of $h$ with respect to its first and second arguments. The back-propagation process begins with the output nodes, where each initial message $\frac{\partial L}{\partial\hat{y}_j}$ is calculated directly from the expression for $L$ in terms of the predicted value $\mathbf{\hat{y}}$ and the true value \textbf{y} from the training data.
+\end{paragraph}
+\begin{paragraph}
+\\
+\textbf{Batch normalization} is a commonly used technique that improves the rate of convergence of SGD. Consider a node $z$ in the network, the values of $z$ for the $m$ examples in a minibatch are $z_1,\cdots,z_m$. Batch normalization replaces each $z_i$ with a new quantity $\hat{z}_i$.
+\begin{align*}
+    \hat{z}_i = \gamma\frac{z_i - \mu}{\sqrt{\epsilon+\sigma^2}}+\beta
+\end{align*}
+where $\mu$ is the mean value of $z$ across the minibatch, $\sigma$ is the standard deviation of $z_1,\cdots,z_m$, $\epsilon$ is a small constant added to prevent division by zero, and $\gamma$ and $\beta$ are learned parameters.
+\end{paragraph}
+\section{Generalization}
+\begin{paragraph}
+\\
+A good deal of the deep learning progress in performance has come from exploring different kinds of network architectures and varying the number of layers, their connectivity, and the types of node in each layer. Some neural network architectures are explicitly designed to generalize well on particular
+types of data. \textbf{Neural architecture search} are used  to explore the state space of possible network architectures.
+\end{paragraph}
+\begin{paragraph}
+\\
+In the context of neural networks, regularization is usually called \textbf{weight decay}. When weight decay is assumed as maximum a posteriori (MAP) learning, the first term is the usual cross-entropy loss and the second term represents weights. At each step of training, \textbf{dropout} applies one step of back-propagation learning to a new version of the network that is created by deactivating a randomly chosen subset of the units.
+
+\end{paragraph}
+
+
+
+
+\end{document}

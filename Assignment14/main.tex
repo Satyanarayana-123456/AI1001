@@ -1,0 +1,99 @@
+\documentclass{article}
+
+
+% if you need to pass options to natbib, use, e.g.:
+%     \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading neurips_2024
+
+
+% ready for submission
+\usepackage[preprint]{neurips_2024}
+
+
+% to compile a preprint version, e.g., for submission to arXiv, add add the
+% [preprint] option:
+%     \usepackage[preprint]{neurips_2024}
+
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+%     \usepackage[final]{neurips_2024}
+
+
+% to avoid loading the natbib package, add option nonatbib:
+%    \usepackage[nonatbib]{neurips_2024}
+
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+\usepackage{amsmath}
+
+\title{RNNs, Unsupervised Learning and Transfer Learning, Applications}
+\author{%
+Satyanarayana Gajjarapu \\
+AI24BTECH11009 \\
+Department of Artificial Intelligence \\
+\texttt{ai24btech11009@iith.ac.in} \\
+}
+
+
+\begin{document}
+
+
+\maketitle
+\section{Recurrent Neural Networks}
+\begin{paragraph}
+\\
+\textbf{Recurrent neural networks} (RNNs) are distinct from feedforward networks because they allow cycles in the computation graph. RNN has an internal state or \textbf{memory}, inputs received at earlier time steps affect the RNN’s response to the current input. RNN's update process for hidden state $\textbf{z}_t$ is given by the equation $\textbf{z}_t = f_\textbf{w}(\textbf{z}_{t-1}, \textbf{x}_t)$, where $f_\textbf{w}$ is a parameterized function and $\textbf{x}_t$ is a new input vector at each time step. Consider a basic model with an input layer \textbf{x}, a hidden layer \textbf{z} with recurrent connections and an output layer \textbf{y}. The equations defining the model at time step $t$:
+\begin{align*}
+    \textbf{z}_t & = f_\textbf{w}(\textbf{z}_{t-1}, \textbf{x}_t) = \textbf{g}_z(\textbf{W}_{z,z}\textbf{z}_{t-1} + \textbf{W}_{x,z}\textbf{x}_t) \equiv \textbf{g}_z(\textbf{in}_{z,t}) \\
+    \hat{\textbf{y}}_t & = \textbf{g}_y(\textbf{W}_{z,y}\textbf{z}_t) \equiv \textbf{g}_y(\textbf{in}_{y,t})
+\end{align*}
+where $\textbf{g}_z$ and $\textbf{g}_y$ denote the activation functions for the hidden and output layers respectively. Consider a model which is unrolled for $T$ steps with weight matrices $\textbf{W}_{x,z}$, $\textbf{W}_{z,z}$ and $\textbf{W}_{z,y}$ shared across all time steps. Computing the gradient of the squared-error loss $L$ with respect to the hidden-layer weight $w_{z,z}$ using the chain rule is as follows:
+\begin{align*}
+     \frac{\partial L}{\partial w_{z,z}} & = \sum\limits_{t=1}^{T}-2(y_t - \hat{y}_t)g'_y(in_{y,t})w_{z,y}\frac{\partial z_t}{\partial w_{z,z}} \\ 
+     \frac{\partial z_t}{\partial w_{z,z}} & = g'_z(in_{z,t})(z_{t-1}+w_{z,z}\frac{\partial z_{t-1}}{\partial w_{z,z}}
+\end{align*}
+The above equation is recursive in nature. If $w_{z,z} < 1$, RNN will suffer vanishing gradient problem. If $w_{z,z} > 1$, RNN will suffer exploding gradient problem. \textbf{Long short-term memory} (LSTM) is a type of RNN. It contains 3 \textbf{gating units}\\
+$\bullet$ \textbf{forget gate f} determines if each element of the memory cell is remembered or forgotten. \\
+$\bullet$ \textbf{input gate i} determines if each element of the memory cell is updated at current time step. \\
+$\bullet$ \textbf{output gate o} determines if each element of the memory cell is transferred to the short-term memory \textbf{z}.
+\end{paragraph}
+\section{Unsupervised Learning and Transfer Learning}
+\begin{paragraph}
+\\
+\textbf{Unsupervised learning} algorithms take a training set of unlabeled examples \textbf{x}. The algorithm should try to learn new representations and generative model. Suppose a joint model $P_W(\textbf{x}, \textbf{z})$ is learnt, it achieves both representation learning and generativ modeling when integrated \textbf{z} out of $P_W(\textbf{x},\textbf{z})$ to obtain $P_W(\textbf{x})$.
+\end{paragraph}
+\begin{paragraph}
+\\
+In \textbf{probabilistic principal components analysis} (PPCA) model, \textbf{z} is chosen from a zero-mean, then \textbf{x} is generated from \textbf{z} by applying a weight matrix \textbf{W} and $\sigma^2$ is noise parameter.
+\begin{align*}
+    P(\textbf{z}) & = \mathcal{N}(\textbf{z}; \textbf{0}, \textbf{I}) \\
+    P_W(\textbf{x}|\textbf{z}) & = \mathcal{N}(\textbf{x}; \textbf{Wz}. \sigma^2\textbf{I}) \\
+    P_W(\textbf{x}) & = \int P_W(\textbf{x},\textbf{z})d\textbf{z} = \mathcal{N}(\textbf{x}; \textbf{0}, \textbf{WW}^\top + \sigma^2\textbf{I})
+\end{align*}
+Many unsupervised deep learning algorithms are based on the idea of an \textbf{autoencoder}. It contains an encoder that maps from \textbf{x} to a representation $\hat{\textbf{z}}$ and a decoder that maps from a representation $\hat{\textbf{z}}$ to observed data \textbf{x}. The model is trained so that $\textbf{x} \approx g(f(\textbf{x}))$, where $f$ and $g$ are parameterized functions of encoder and decoder respectively. A very simple autoencoder is the linear autoencoder, where both $f$ and $g$ are linear with
+a shared weight matrix \textbf{W}:
+\begin{align*}
+    \hat{\textbf{z}} & = f(\textbf{x}) = \textbf{Wx} \\
+    \textbf{x} & = g(\hat{\textbf{z}}) = \textbf{W}^\top\hat{\textbf{z}}
+\end{align*}
+Other types of unsupervised learning algorithms are \textbf{deep autoregressive models}, \textbf{generative adversarial networks} and \textbf{unsupervised translation}. In \textbf{transfer learning}, experience with one learning task helps an agent learn better on another task. Learning rate depend on how similar the both tasks are. Multitask learning is a form of transfer learning in which we simultaneously train a model on multiple objectives.
+\end{paragraph}
+\section{Applications}
+\begin{paragraph}
+\\
+Deep learning has had a significant impact on \textbf{computer vision}, especially with the success of AlexNet in the 2012 ImageNet competition. It used ReLU activation functions and took advantage of GPUs to speed up the process of training 60 million weights. It also has an impact on \textbf{natural language processing}(NLP) in the fields of machine translation, speech recognition and word embeddings. It combined with reinforcement learning to form \textbf{deep reinforcement learning}, which is used in DeepMind's AlphaGo. Deep RL still faces significant obstacles, it is often difficult to get good performance.
+\end{paragraph}
+
+
+
+
+
+\end{document}

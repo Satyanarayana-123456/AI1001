@@ -1,0 +1,123 @@
+\documentclass{article}
+
+
+% if you need to pass options to natbib, use, e.g.:
+%     \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading neurips_2024
+
+
+% ready for submission
+\usepackage[preprint]{neurips_2024}
+
+
+% to compile a preprint version, e.g., for submission to arXiv, add add the
+% [preprint] option:
+%     \usepackage[preprint]{neurips_2024}
+
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+%     \usepackage[final]{neurips_2024}
+
+
+% to avoid loading the natbib package, add option nonatbib:
+%    \usepackage[nonatbib]{neurips_2024}
+
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+\usepackage{amsmath}
+
+\title{Linear Regression and Gradient Descent}
+\author{%
+Satyanarayana Gajjarapu \\
+AI24BTECH11009 \\
+Department of Artificial Intelligence \\
+\texttt{ai24btech11009@iith.ac.in} \\
+}
+
+
+\begin{document}
+
+
+\maketitle
+\section{Univariate linear regression}
+\begin{paragraph}
+\\
+A univariate linear function is a straight line with input $x$ and output $y$ having the form $y = w_1x + w_0$, where $w_0$ and $w_1$ are real-valued coefficients. A vector \textbf{w} is defined as $\langle w_0,w_1 \rangle$ and linear function as $h_\textbf{w}(x) = w_1x + w_0$. The task of finding the $h_\textbf{w}$ that best fits the data is called \textbf{linear regression}. To fit a line to the data, it is required to find values of weights $\langle w_0,w_1 \rangle$ that minimize the empirical loss. It is traditional to use the squared error loss function, $L_2$.
+\begin{align*}
+    Loss(h_\textbf{w}) = \sum_{j = 1}^{N} L_2(y_j,h_\textbf{w}(x_j)) = \sum_{j = 1}^{N} (y_j - h_\textbf{w}(x_j))^2 = \sum_{j = 1}^{N} (y_j - (w_1x_j + w_0))^2
+\end{align*}
+The $Loss(h_\textbf{w})$ is minimized when partial derivatives with respect to $w_0$ and $w_1$ are equated to zero. Solving the obtained 2 equations, a unique solution of $w_0$ and $w_1$ is obtained.
+\begin{align*}
+w_1 = \frac{N(\sum x_jy_j) - (\sum x_j)(\sum y_j)}{N(\sum x^2_j) - (\sum x_j)^2};\hspace{1 cm}w_0 = (\sum y_j - w_1(\sum x_j))/N
+\end{align*}
+The space defined by all possible settings of the weights is called \textbf{weight space}. For univariate linear regression, the weight space is 2 - dimensional defined by $w_0$ and $w_1$. So the graph of loss as a function of $w_0$ and $w_1$ is a 3D plot.
+\end{paragraph}
+\section{Gradient Descent}
+\begin{paragraph}
+\\
+An algorithm called \textbf{hill climbing} is used to search through a continuous weight space by incrementally modifying the parameters. But the term \textbf{gradient descent} is used because the aim is minimizing loss, not maximizing gain. The algorithm is as follows:
+\begin{align*}
+w_i \leftarrow w_i - \alpha \frac{\partial}{\partial w_i}Loss(\textbf{w})
+\end{align*}
+The parameter $\alpha$ is step size which is usually called the \textbf{learning rate}. For univariate regression, the loss is quadratic, so the partial derivative will be linear. 
+\begin{align*}
+\frac{\partial}{\partial w_i}Loss(\textbf{w}) & = \frac{\partial}{\partial w_i}(y - h_\textbf{w}(x))^2 = 2(y - h_\textbf{w}(x)) \times \frac{\partial}{\partial w_i}(y - h_\textbf{w}(x)) \\
+& = 2(y - h_\textbf{w}(x)) \times \frac{\partial}{\partial w_i}(y - (w_1x + w_0))
+\end{align*}
+Applying this to both $w_0$ and $w_1$,
+\begin{align*}
+\frac{\partial}{\partial w_0}Loss(\textbf{w}) = -2(y - h_\textbf{w});\hspace{1 cm}\frac{\partial}{\partial w_1}Loss(\textbf{w}) = -2(y - h_\textbf{w}) \times x
+\end{align*}
+Using these 2 equations and unspecified learning rate $\alpha$ to get the learning rule for the weights,
+\begin{align*}
+w_0 \leftarrow w_0 + \alpha (y - h_\textbf{w}(x));\hspace{1 cm} w_1 \leftarrow w_1 + \alpha (y - h_\textbf{w}(x)) \times x
+\end{align*}
+Examples for different types of gradient descent algorithms are \textbf{batch gradient descent} (deterministic gradient descent), \textbf{stochastic gradient descent} (online gradient descent) or \textbf{SGD} and \textbf{minibatch gradient descent}. A step that covers all the training examples is called an \textbf{epoch}. 
+\end{paragraph}
+\section{Multivariable linear regression}
+\begin{paragraph}
+\\
+This can be extended to \textbf{multivariable linear regression} in which $\textbf{x}_j$ is an n - element vector. The term $w_0$ is defined as always equal to 1. $h$ can simply written as the dot product of the weights and the input vector. The hypothesis space consists functions of form 
+\begin{align*}
+h_\textbf{w}(\textbf{x}_j) & = w_0 + w_1x_{j,1} + \cdots + w_nx_{j,n} = w_0 + \sum\limits_{i} w_ix_{j,i} \\
+h_\textbf{w}(\textbf{x}_j) & = \textbf{w} \cdot \textbf{x}_j = \textbf{w}^\top \textbf{x}_j = \sum\limits_{i} w_ix_{j,i}
+\end{align*}
+The updated equation for each weight $w_i$ is
+\begin{align*}
+    w_i \leftarrow w_i + \alpha\sum\limits_{j} (y_j - h_\textbf{w}(\textbf{x}_j)) \times x_{j,i}
+\end{align*}
+Let \textbf{y} be the vector of outputs for the training examples, and \textbf{X} be the \textbf{data matrix}. The vector of predicted outputs is $\mathbf{\hat{y}}$ = \textbf{Xw} and the squared error loss over all the training data is
+\begin{align*}
+    L(\textbf{w}) = ||\mathbf{\hat{y}} - \textbf{y}||^2 = ||\textbf{Xw} - \textbf{y}||^2
+\end{align*}
+After setting gradient to 0 and rearranging, minimum loss weight is obtained as
+\begin{align*}
+    \textbf{w}^* = (\textbf{X}^\top\textbf{X})^{-1}\textbf{X}^\top\textbf{y}
+\end{align*}
+This equation is called \textbf{normal equation} and $(\textbf{X}^\top\textbf{X})^{-1}\textbf{X}^\top$ is called \textbf{pseudoinverse} of data matrix.
+\end{paragraph}
+\section{Cauchy and the Gradient Method}
+\begin{paragraph}
+\\
+Cauchy is motivated by astronomic calculations which are normally very voluminous. In those days to solve a multivariable equation, one reduces the equation to a single variable by successive eliminations. Consider a function $u = f(x,y,z,\cdots)$ and $X = f'_x, Y = f'_y, Z = f'_z,\cdots$ are the derivatives. Aim is to find the values of $x$, $y$, $z$, $\cdots$ satisfying the equation $u = 0$. Let $\alpha, \beta, \gamma, \cdots$ be small increments given to the particular values $x, y, z, \cdots$
+\begin{align*}
+    f(x + \alpha, y + \beta, z + \gamma, \cdots) = u + X\alpha + Y\beta + Z\gamma + \cdots 
+\end{align*}
+Taking $\theta$>0, we obtain approximately
+\begin{align*}
+    f(x - \theta X, y - \theta Y, z - \theta Z, \cdots) = u - \theta(X^2 + Y^2 +Z^2 + \cdots)
+\end{align*}
+If $\theta$ increases and the function $f(x, y, z, \cdots)$ is continuous, the value of $u$ will decrease until it vanishes. Cauchy does not seem to believe that the method always finds a solution, but he hoped it does.
+\end{paragraph}
+
+
+\end{document}
+

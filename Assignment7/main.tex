@@ -1,0 +1,90 @@
+\documentclass{article}
+
+
+% if you need to pass options to natbib, use, e.g.:
+%     \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading neurips_2024
+
+
+% ready for submission
+\usepackage[preprint]{neurips_2024}
+
+
+% to compile a preprint version, e.g., for submission to arXiv, add add the
+% [preprint] option:
+%     \usepackage[preprint]{neurips_2024}
+
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+%     \usepackage[final]{neurips_2024}
+
+
+% to avoid loading the natbib package, add option nonatbib:
+%    \usepackage[nonatbib]{neurips_2024}
+
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+
+
+\title{The Structure of Agents}
+\author{%
+Satyanarayana Gajjarapu \\
+AI24BTECH11009 \\
+Department of Artificial Intelligence \\
+\texttt{ai24btech11009@iith.ac.in} \\
+}
+
+
+\begin{document}
+
+
+\maketitle
+\section{Agent Programs}
+\begin{paragraph}
+\\
+The job of AI is to design an agent program that implements the agent function which maps from percepts to actions. This program runs on computing device with physical sensors and actuators called the agent architecture. Agent = Architecture + Program. The architecture makes the percepts from the sensors available to the program, runs the program, and feeds the program’s action choices to the actuators. 
+\end{paragraph}
+\begin{paragraph}
+\\
+The agent program take the current percept as input from the sensors and return an action to the actuators. The complexity of agent program increases from simple reflex agent to utility based agent. There are 4 basic kinds of agent programs:
+\begin{enumerate}
+    \item Simple reflex agents
+\item  Model-based reflex agents
+\item  Goal-based agents
+\item  Utility-based agents
+\end{enumerate}
+\end{paragraph}
+\section{Types of Agents}
+\begin{paragraph}
+\\
+The simplest kind of agent is the simple reflex agent. These agents acts on the basis of the current percept, ignoring the rest of the percept history. Simple reflex agents have the admirable property of being simple, but they are of limited intelligence.
+\end{paragraph}
+\begin{paragraph}
+\\
+If an agent has partial observability then internally it should contain two kinds of knowledge, transition model and sensor model. An agent that uses such models is called a model-based agent. A model-based reflex agent uses both current percept and past experiences to act on current situation. 
+\end{paragraph}
+\begin{paragraph}
+\\
+Knowing something about the current state of the environment is not always enough to act for an agent but it also requires a goal. Goal-based agents uses past experience, current percept and the knowledge about the future conditions and acts towards the goal.
+\end{paragraph}
+\begin{paragraph}
+\\
+Goals alone are not enough to generate high-quality behavior in most environments. The utility function can be the function of many goals in which only some are achieved. A rational utility-based agent chooses the action that maximizes the expected utility.
+\end{paragraph}
+\section{Learning Agents}
+\begin{paragraph}
+\\
+In 1950, Alan Turing proposed a method to build learning machines and then to teach them. Learning allows the agent to operate in initially unknown environments to improve its initial knowledge. A learning agent can be divided into 4 components: learning element, performance element, critic and problem generator. The agent learns from the feedback from the either as a reward or a penalty. The information in AI can be classified into 3 types atomic representation, factored representation and structured representation.
+\end{paragraph}
+
+
+
+\end{document}

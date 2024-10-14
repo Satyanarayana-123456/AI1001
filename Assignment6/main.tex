@@ -1,0 +1,80 @@
+\documentclass{article}
+
+
+% if you need to pass options to natbib, use, e.g.:
+%     \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading neurips_2024
+
+
+% ready for submission
+\usepackage[preprint]{neurips_2024}
+
+
+% to compile a preprint version, e.g., for submission to arXiv, add add the
+% [preprint] option:
+%     \usepackage[preprint]{neurips_2024}
+
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+%     \usepackage[final]{neurips_2024}
+
+
+% to avoid loading the natbib package, add option nonatbib:
+%    \usepackage[nonatbib]{neurips_2024}
+
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+
+
+\title{Intelligent Agents}
+\author{%
+Satyanarayana Gajjarapu \\
+AI24BTECH11009 \\
+Department of Artificial Intelligence \\
+\texttt{ai24btech11009@iith.ac.in} \\
+}
+
+
+\begin{document}
+
+
+\maketitle
+\section{Introduction to Agents}
+\begin{paragraph}
+\\
+An agent can be viewed as perceiving its environment through \textbf{sensors} and acting upon that environment through \textbf{actuators}. A human agent has eyes, ears and other organs for sensors and hands, legs and so on for actuators. A robotic agent might have cameras and infrared range finders for sensors and various motors for actuators. Environment can be entire universe but mostly it is a part around the universe. 
+\end{paragraph}
+\begin{paragraph}
+\\
+\textbf{Percept} refers to the content agent's sensors are perceiving. The history of perceived information is called percept sequence. The actions of the agent depends on builtin knowledge and percept sequence. Agents behaviour depends on \textbf{agent function} which maps from percept sequence to action. Internally the agent functioning is implemented by agent program.
+\end{paragraph}
+\section{Behaviour of Agents}
+\begin{paragraph}
+\\
+A rational agent is an agent that does the right thing. Right thing in AI is generally stuck to a notion called \textbf{consequentialism}, which means evaluating actions of an agent to a particular percept sequence based on consequences. For each possible percept sequence, a rational agent should select an action that is expected to maximize its performance measure.
+\end{paragraph}
+\begin{paragraph}
+\\
+An omniscient agent knows the actual outcome of its actions and can act accordingly which is impossible in reality. Rationality is not the same as perfection, rationality maximizes expected performance, while perfection maximizes actual performance. A rational agent should gather information and learn from what it perceives. A rational agent should be \textbf{autonomous}, it should learn to compensate for partial or incorrect prior knowledge.
+\end{paragraph}
+\section{Task Environment and Properties}
+\begin{paragraph}
+\\
+For an agent task environment should be specified. Task environment includes four things Performance, Environment, Actuators, Sensors (\textbf{PEAS}). If agent sensors have access to complete environment then it is fully observable environment or if the sensors are inaccurate then it is a partially observable or if agent has no sensors then it is unobservable. If only one agent is involved in the environment then it is called single agent environment or if more than one agent is involved then it is called multiagent environment. If the next state of the environment is completely determined by the current state and the actions of agent then we say the environment is deterministic otherwise it is nondeterministic.
+\end{paragraph}
+\begin{paragraph}
+\\
+In episodic environment current action doesnot depend on previous actions, in sequential environment the current decision could affect all future decisions. If the environment can change while an agent is deliberating then the environment is dynamic otherwise it is static. If an environment has finite number of steps then it is discrete otherwise continuous. If the agent has knowledge about environment then it is called known environment otherwise unknown. The hardest case is partially observable, multiagent, nondeterministic, sequential, dynamic, continuous, and unknown as in the case of autonomous car driver.
+\end{paragraph}
+
+
+
+\end{document}
